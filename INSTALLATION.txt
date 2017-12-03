@@ -1,0 +1,32 @@
+== INSTALLATION ==
+
+To install - simply copy the folder 'agr_cleanup_tool' to the Cinema4D Plugins folder,
+usually located at: C:\Program Files\MAXON\CINEMA 4D R17\plugins
+
+== USAGE ==
+
+Open the plugin under the plugins menu, then select a function to use.
+
+# Delete Hitboxes/Physics Objects
+The plugin will attempt to find any physics/hitbox objects and delete them,
+since this action is destructive it can be undone in the edit menu.
+
+# Fix Ball Joint Rotations
+The plugin will focus the camera onto a balljoint, you can then rotate the balljoint
+using the edit fields, and the quick 45 degree movements.
+You can change the time by sliding the frame slider at the top of the window.
+You can also change the camera rotation by adjusting τ (Tau), and the camera height by adjusting h.
+Any changes made can not be undone !!!
+
+
+GL and HF !
+- Brett "xNWP" Anthony
+
+
+
+
+
+
+Like the plugin?
+Send me some stuff to play/use/sell for coffee money :-)
+https://steamcommunity.com/tradeoffer/new/?partner=37630060&token=pGfgBYGY
