@@ -507,8 +507,9 @@ class AGRCleanupTool(plugins.CommandData):
 				if(rvalue == True):
 					webbrowser.open(UpdateURL)
 					return True
-		except:
+		except BaseException, e:
 			print "-- Error checking for update to %s" % (PLUGIN_NAME)
+			print str(e)
 		
 		UI = PrimaryUI()
 		UI.Open(c4d.DLG_TYPE_MODAL, PLUGIN_ID, -1, -1, MAINUI_WIDTH, MAINUI_HEIGHT, 0) # open ui
