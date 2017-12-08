@@ -13,6 +13,7 @@ from c4d import gui
 import math # Algebraic!
 import urllib2 # For Update Checking
 import webbrowser # ^^
+import os
 
 # Global Vars
 PLUGIN_VERSION = "v0.5 [ALPHA]"
@@ -411,12 +412,35 @@ def FixBallJointRotations():
 	UI = PrimaryUI()
 	UI.Open(c4d.DLG_TYPE_MODAL, PLUGIN_ID, -1, -1, MAINUI_WIDTH, MAINUI_HEIGHT, 0) # open ui
 	
+# Banner Definition
+class Banner(gui.GeUserArea):
+	def GetMinSize(self):
+		self.width = 340
+		self.height = 100
+		return (self.width, self.height)
+	
+	def DrawMsg(self, x1, y1, x2, y2, msg):
+		bmp = c4d.bitmaps.BaseBitmap()
+		path = __file__
+		path = os.path.dirname(os.path.realpath(__file__))
+		path += "\\res\\banner.png"
+		bmp.InitWith(path)
+		
+		self.DrawBitmap(bmp, 0, 0, bmp.GetBw(), bmp.GetBh(), 0, 0, bmp.GetBw(), bmp.GetBh(), c4d.BMP_NORMALSCALED|c4d.BMP_ALLOWALPHA)
+
 # UI Definition
 class PrimaryUI(gui.GeDialog):
 
+	TopBanner = Banner()
 	def CreateLayout(self):
 		# Creates our layout.
 		self.SetTitle(PLUGIN_NAME)
+		
+		# BANNER
+		self.AddUserArea(50, c4d.BFH_CENTER)
+		self.AttachUserArea(self.TopBanner, 50)
+		self.TopBanner.LayoutChanged()
+		self.TopBanner.Redraw()
 		
 		# PROGRAM INFO
 		self.GroupBegin(100, c4d.BFH_SCALE, 1, 6)
@@ -438,13 +462,12 @@ class PrimaryUI(gui.GeDialog):
 		
 		# Tools & Donate
 		# Tools
-		self.GroupBegin(200, c4d.BFH_SCALE, 1, 3, initw=420, inith=100) 
+		self.GroupBegin(200, c4d.BFH_SCALE, title="Tools", cols=1, rows=3, initw=565, inith=100) 
+		self.GroupBorder(c4d.BORDER_GROUP_OUT|c4d.BORDER_WITH_TITLE_BOLD)
+		self.GroupSpace(4, 2)
 		
-		self.GroupBorderNoTitle(c4d.BORDER_THIN_IN)
-		
-		self.AddStaticText(0, c4d.BFH_CENTER, 0, 3) # spacer
-		self.AddButton(201, c4d.BFH_SCALE, 300, 0, "Delete Hitboxes/Physics Objects")
-		self.AddButton(202, c4d.BFH_SCALE, 300, 0, "Fix Ball Joint Rotations")
+		self.AddButton(201, c4d.BFH_SCALE, 500, 0, "Delete Hitboxes/Physics Objects")
+		self.AddButton(202, c4d.BFH_SCALE, 500, 0, "Fix Ball Joint Rotations")
 		
 		self.GroupEnd()
 		
