@@ -4,37 +4,6 @@
 
 """
 
-""" 		ID LAYOUT
-
-0 - Primary UI
-	100 - Group (Program Information)
-	200 - Group (Tools)
-		201 - Delete Hitboxes/Physics Objects
-		202 - Fix Ball Joint Rotations
-		
-500 - BallJoint UI
-	551 - Iterator
-	552 - View 1
-	553 - View 2
-	554 - View 3
-	555 - H + 45
-	556 - H - 45
-	557 - P + 45
-	558 - P - 45
-	559 - B + 45
-	560 - B - 45	
-	565 - H
-	566 - P
-	567 - B
-	575 - Prev
-	576 - Next
-	580 - Tau
-	581 - Height
-	582 - Frame
-	583 - FrameEdit
-
-"""
-
 # Imports
 import c4d
 from c4d import plugins
@@ -52,13 +21,12 @@ PLUGIN_NAME = "AGR Cleanup Tool " + PLUGIN_VERSION
 PLUGIN_DESCRIPTION = "Aids in cleaning up Advanced Effects Game Recording (AGR) Files."
 PLUGIN_ID = 1040374 # Registered ID
 PLUGIN_WEBPAGE = "https://github.com/xNWP"
-PLUGIN_UPDATE_LINK = "http://code.thatnwp.com/version/AGRCleanupTool"
-MAINUI_WIDTH = 420
-MAINUI_HEIGHT = 250
+PLUGIN_UPDATE_LINK = "http://code.thatnwp.com/version/AGRCleanupTool.ver"
 
 def CheckUpdateAvailable(CheckURL):
 	# if update available, returns download url, otherwise None
-	UpdateFile = urllib2.urlopen(CheckURL).read(2000)
+	req = urllib2.Request(CheckURL, headers={'User-Agent' : "Magic Browser"}) 
+	UpdateFile = urllib2.urlopen(req).read(2000)
 	UpdateFile = UpdateFile.split('\0')
 	
 	for it in range(len(UpdateFile)):
@@ -66,7 +34,6 @@ def CheckUpdateAvailable(CheckURL):
 			LatestVersion = UpdateFile[it + 1]
 		if (UpdateFile[it] == "download"):
 			DownloadLink = UpdateFile[it + 1]
-			
 	if (int(LatestVersion) > PLUGIN_VERSION_INT):
 		return DownloadLink
 	else:
@@ -469,6 +436,7 @@ class PrimaryUI(gui.GeDialog):
 		self.AddSeparatorH(300, c4d.BFH_CENTER)
  		self.AddStaticText(0, c4d.BFH_CENTER, 0, 3) # spacer
 		
+		# Tools & Donate
 		# Tools
 		self.GroupBegin(200, c4d.BFH_SCALE, 1, 3, initw=420, inith=100) 
 		
@@ -512,7 +480,7 @@ class AGRCleanupTool(plugins.CommandData):
 			print str(e)
 		
 		UI = PrimaryUI()
-		UI.Open(c4d.DLG_TYPE_MODAL, PLUGIN_ID, -1, -1, MAINUI_WIDTH, MAINUI_HEIGHT, 0) # open ui
+		UI.Open(c4d.DLG_TYPE_MODAL, PLUGIN_ID, -1, -1, 420, 350, 0) # open ui
 		return True
 		
 # Main Definition
